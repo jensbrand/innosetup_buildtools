@@ -1,0 +1,52 @@
+{
+    "manifestVersion": 1,
+    "id": "WSInnoSetupTools",
+    "name": "Wolf Software Inno Setup Tools",
+    "version": "0.1.3",
+    "publisher": "WolfSoftware",
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],    
+    "description": "Tools to Build Inno Setup Scripts",
+    "categories": [
+        "Azure Pipelines"
+    ],
+    "icons": {
+        "default": "Build-InnoSetup/icon.png"        
+    },
+    "files": [
+        {
+            "path": "readme.md"
+        },
+        {
+            "path": "Install-InnoSetup"
+        },
+        {
+            "path": "Build-InnoSetup"
+        }
+    ],
+    "contributions": [
+        {
+            "id": "Install-InnoSetup",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "Install-InnoSetup"
+            }
+        },
+        {
+            "id": "Build-InnoSetup",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "Build-InnoSetup"
+            }
+        }
+    ]
+}

@@ -13,11 +13,17 @@
   "version": {
     "Major": "0",
     "Minor": "1",
-    "Patch": "3"
+    "Patch": "11"
   },
   "minimumAgentVersion": "1.95.0",
   "instanceNameFormat": "Build Inno Setup $(file)",
-  "inputs": [
+  "groups": [
+    {
+      "name": "SignTool",
+      "displayName": "Sign Tool Settings",
+      "isExpanded": false
+    }
+  ],  "inputs": [
     {
       "name": "version",
       "type": "string",
@@ -32,7 +38,43 @@
       "label": "File to build",
       "defaultValue": "",
       "required": true,
-      "helpMarkDown": "Relative path from repo root of the Inno Setup file. Wildcards NOT can be used.  For example, `**\\*.iss`."
+      "helpMarkDown": "Relative path from repo root of the Inno Setup file. Wildcards can NOT be used."
+    },
+    {
+      "name": "secureFileId",
+      "type": "secureFile",
+      "label": "Secure file for codesigning",
+      "defaultValue": "",
+      "required": false,
+      "helpMarkDown": "The file name or GUID of the secure file to download to the agent machine. The file will be deleted after the task runs.",
+      "group": "SignTool"
+    },
+    {
+      "name": "signCertPassword",
+      "type": "string",
+      "label": "Secure File Password",
+      "defaultValue": "",
+      "required": false,
+      "helpMarkDown": "Enter the password for the provided certificate. Use a new variable with its lock enabled on the Variables tab to encrypt this value.",
+      "group": "SignTool"
+    },
+    {
+      "name": "timeServer",
+      "type": "string",
+      "label": "Timestamp Server Url",
+      "defaultValue": "http://timestamp.comodoca.com/?td=sha256",
+      "required": false,
+      "helpMarkDown": "Absolute Url of the timestamp server to use.",
+      "group": "SignTool"
+    },
+    {
+      "name": "signToolName",
+      "type": "string",
+      "label": "Inno Setup Sign Tool Name",
+      "defaultValue": "wolf_sw",
+      "required": false,
+      "helpMarkDown": "This is the name of the signtool how it is used in the Inno Setup script",
+      "group": "SignTool"
     }
   ],
   "execution": {

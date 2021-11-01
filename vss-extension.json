@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "WSInnoSetupTools",
     "name": "Wolf Software Inno Setup Tools",
-    "version": "0.1.3",
+    "version": "0.1.11",
     "publisher": "WolfSoftware",
     "targets": [
         {
@@ -13,10 +13,27 @@
     "categories": [
         "Azure Pipelines"
     ],
+    "tags": [
+        "Extension",
+        "Build",
+        "Inno Setup"
+      ],    
+    "repository": {
+        "type": "git",
+        "uri": "https://github.com/jensbrand/innosetup_buildtools.git"
+      },      
+    "content": {
+        "details": {
+          "path": "readme.md"
+        }
+    },    
     "icons": {
-        "default": "Build-InnoSetup/icon.png"        
+        "default": "icon.png"        
     },
     "files": [
+        {
+            "path": "icon.png"
+        },
         {
             "path": "readme.md"
         },

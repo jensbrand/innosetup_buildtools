@@ -56,22 +56,33 @@ function Get-SecureFile {
 [string]$file = Get-VstsInput -Name file
 [string]$secFileId = Get-VstsInput -Name secureFileId
 [string]$signCertPassword = Get-VstsInput -Name signCertPassword
-[string]$timeServer = Get-VstsInput -Name timeServer
-[string]$signToolName = Get-VstsInput -Name signToolName
+[string]$timeServer = Get-VstsInput -Name timeServer -Default "http://timestamp.comodoca.com/?td=sha256"
+[string]$signToolName = Get-VstsInput -Name signToolName -Default "wolf_sw"
+[bool]$sign = Get-VstsInput -Name sign -AsBool -Default $false
 
-if ([string]::IsNullOrEmpty($secFileId)) {
-    Write-Host "No secure file configured"
-    $configureSignTool = $false
-}
-else {
+if ($sign) {
+    if ([string]::IsNullOrEmpty($secFileId)){
+        throw "Signing needs secure file id."
+    }
+
     $secureFilePath = Get-SecureFile -FileId $secFileId
+    if ([string]::IsNullOrEmpty($secureFilePath)){
+        throw "Unable to get secure file with id " + $secFileId + "."
+    }
+    
     $configureSignTool = $true
     Write-Host "Using secure file " $secureFilePath
+}
+else {
+    Write-Host "No secure file configured"
+    $configureSignTool = $false
 }
 
 
 $toolDirectory = Join-Path $env:AGENT_TOOLSDIRECTORY "\InnoSetup\$version\"
 $innoCompiler = $toolDirectory + "ISCC.exe"
+
+Write-Host "Using installed Inno-Setup compiler: " $innoCompiler
 
 if (!(test-path -path $innoCompiler)) {
     throw "Inno Setup not installed!"
@@ -83,14 +94,14 @@ if ($extn -ne ".iss") {
 }
 
 Write-Host "Building..."
-
 Write-Host "Compiler  =>" $innoCompiler
 Write-Host "File .iss =>" $file
 
 if ($configureSignTool) {
     $signTool = [string]::Format('/S{0}="signtool.exe sign /as /fd sha256 /f $q{1}$q /p $q{2}$q /tr $q{3}$q /td sha256 $f"', $signToolName, $secureFilePath, $signCertPassword, $timeServer)
+    $signToolSecure = [string]::Format('/S{0}="signtool.exe sign /as /fd sha256 /f $q{1}$q /p $q{2}$q /tr $q{3}$q /td sha256 $f"', $signToolName, $secureFilePath, "****", $timeServer)
 
-    Write-Host "Starting Inno Setup compiler: " $innoCompiler $signTool $file
+    Write-Host "Starting Inno Setup compiler: " $innoCompiler $signToolSecure $file
     Start-Process -FilePath $innoCompiler -ArgumentList $signTool, $file -Wait -RedirectStandardOutput stdout.txt -RedirectStandardError stderr.txt
 }
 else {
@@ -107,6 +118,6 @@ if ($erro) {
 Write-Host "Process completed successfully!"-ForegroundColor Green
 
 if (-not [string]::IsNullOrEmpty($secureFilePath)) {
-    Write-Host "Erasing downloaded secure file: " + $secureFilePath
+    Write-Host "Erasing downloaded secure file: " $secureFilePath
     Remove-Item -Path $secureFilePath 
 }

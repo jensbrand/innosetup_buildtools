@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "WSInnoSetupTools",
     "name": "Wolf Software Inno Setup Tools",
-    "version": "0.1.11",
+    "version": "1.2.0",
     "publisher": "WolfSoftware",
     "targets": [
         {
@@ -24,7 +24,7 @@
       },      
     "content": {
         "details": {
-          "path": "readme.md"
+          "path": "overview.md"
         }
     },    
     "icons": {
@@ -32,16 +32,31 @@
     },
     "files": [
         {
-            "path": "icon.png"
+            "path": "Install-InnoSetup/Install-InnoSetupV1/ps_modules"
         },
         {
-            "path": "readme.md"
+            "path": "Install-InnoSetup/Install-InnoSetupV1/icon.png"
         },
         {
-            "path": "Install-InnoSetup"
+            "path": "Install-InnoSetup/Install-InnoSetupV1/Install.ps1"
         },
         {
-            "path": "Build-InnoSetup"
+            "path": "Install-InnoSetup/Install-InnoSetupV1/task.json"
+        },
+        {
+            "path": "Build-InnoSetup/Build-InnoSetupV1/ps_modules"
+        },
+        {
+            "path": "Build-InnoSetup/Build-InnoSetupV1/build.ps1"
+        },
+        {
+            "path": "Build-InnoSetup/Build-InnoSetupV1/icon.png"
+        },
+        {
+            "path": "Build-InnoSetup/Build-InnoSetupV1/signtool.exe"
+        },
+        {
+            "path": "Build-InnoSetup/Build-InnoSetupV1/task.json"
         }
     ],
     "contributions": [

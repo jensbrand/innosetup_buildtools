@@ -44,8 +44,16 @@
        
        $ArgumentList = "/VERYSILENT /DIR=""" + $toolDirectory + """"
        Write-Host "ArgumentList..." $ArgumentList
-       <#Start-Process -FilePath $app -ArgumentList $ArgumentList -Wait#>
-       Invoke-VstsTool -FileName $app -Arguments $ArgumentList
+       Start-Process -FilePath $app -ArgumentList $ArgumentList -Wait -RedirectStandardOutput stdout.txt -RedirectStandardError stderr.txt
+    #    Invoke-VstsTool -FileName $app -Arguments $ArgumentList
+
+        $(Get-Content stdout.txt)
+
+        $erro = $(Get-Content stderr.txt)
+        if ($erro) {
+            throw $erro
+        }	
+        
        Write-Host "install complete"
 
     }

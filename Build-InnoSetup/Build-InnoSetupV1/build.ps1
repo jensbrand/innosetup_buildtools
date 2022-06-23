@@ -56,7 +56,7 @@ function Get-SecureFile {
 [string]$file = Get-VstsInput -Name file
 [string]$secFileId = Get-VstsInput -Name secureFileId
 [string]$signCertPassword = Get-VstsInput -Name signCertPassword
-[string]$timeServer = Get-VstsInput -Name timeServer -Default "http://timestamp.comodoca.com/?td=sha256"
+[string]$timeServer = Get-VstsInput -Name timeServer -Default "http://timestamp.sectigo.com"
 [string]$signToolName = Get-VstsInput -Name signToolName -Default "wolf_sw"
 [bool]$sign = Get-VstsInput -Name sign -AsBool -Default $false
 
@@ -98,8 +98,8 @@ Write-Host "Compiler  =>" $innoCompiler
 Write-Host "File .iss =>" $file
 
 if ($configureSignTool) {
-    $signTool = [string]::Format('/S{0}="signtool.exe sign /as /fd sha256 /f $q{1}$q /p $q{2}$q /tr $q{3}$q /td sha256 $f"', $signToolName, $secureFilePath, $signCertPassword, $timeServer)
-    $signToolSecure = [string]::Format('/S{0}="signtool.exe sign /as /fd sha256 /f $q{1}$q /p $q{2}$q /tr $q{3}$q /td sha256 $f"', $signToolName, $secureFilePath, "****", $timeServer)
+    $signTool = [string]::Format('/S{0}="signtool.exe sign /as /fd sha384 /f $q{1}$q /p $q{2}$q /tr $q{3}$q /td sha384 $f"', $signToolName, $secureFilePath, $signCertPassword, $timeServer)
+    $signToolSecure = [string]::Format('/S{0}="signtool.exe sign /as /fd sha384 /f $q{1}$q /p $q{2}$q /tr $q{3}$q /td sha384 $f"', $signToolName, $secureFilePath, "****", $timeServer)
 
     Write-Host "Starting Inno Setup compiler: " $innoCompiler $signToolSecure $file
     Start-Process -FilePath $innoCompiler -ArgumentList $signTool, $file -Wait -RedirectStandardOutput stdout.txt -RedirectStandardError stderr.txt

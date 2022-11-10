@@ -12,8 +12,8 @@
   "demands": [],
   "version": {
     "Major": "1",
-    "Minor": "3",
-    "Patch": "0"
+    "Minor": "5",
+    "Patch": "6"
   },
   "minimumAgentVersion": "1.95.0",
   "instanceNameFormat": "Build Inno Setup $(file)",
@@ -26,12 +26,30 @@
   ],  
   "inputs": [
     {
+      "name": "useSystemInno",
+      "type": "boolean",
+      "label": "Use systemwide installed Innosetup-Compiler",
+      "helpMarkDown": "Should we use an systemwide-installed innosetup (true) or an version temporary installed by Install-InnoSetup task (false)",
+      "defaultValue": "false",
+      "required": true
+    },
+    {
       "name": "version",
       "type": "string",
       "label": "InnoSetup version to use",
       "defaultValue": "6.2.0",
       "required": true,
-      "helpMarkDown": "Specify the version of Inno Setup you wish to use for build."
+      "helpMarkDown": "Specify the version of Inno Setup you wish to use for build.",
+      "visibleRule": "useSystemInno = false"
+    },
+    {
+      "name": "installpath",
+      "type": "string",
+      "label": "Path to systemwide installed InnoSetup version to use",
+      "defaultValue": "C:\\Program Files (x86)\\Inno Setup 6",
+      "required": true,
+      "helpMarkDown": "Specify the path to the installed version of Inno Setup you wish to use for build.",
+      "visibleRule": "useSystemInno = true"
     },
     {
       "name": "file",

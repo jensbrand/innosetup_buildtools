@@ -42,7 +42,7 @@
        
        New-Item -ItemType Directory -Force -Path $toolDirectory | Out-Null
        
-       $ArgumentList = "/VERYSILENT /DIR=""" + $toolDirectory + """"
+       $ArgumentList = "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /DIR=""" + $toolDirectory + """"
        Write-Host "ArgumentList..." $ArgumentList
        Start-Process -FilePath $app -ArgumentList $ArgumentList -Wait -RedirectStandardOutput stdout.txt -RedirectStandardError stderr.txt
     #    Invoke-VstsTool -FileName $app -Arguments $ArgumentList

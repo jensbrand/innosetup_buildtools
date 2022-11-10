@@ -52,6 +52,8 @@ function Get-SecureFile {
 
 }
 
+[bool]$use_systeminstalled_inno = Get-VstsInput -Name useSystemInno -AsBool
+[string]$installpath = Get-VstsInput -Name installpath
 [string]$version = Get-VstsInput -Name version
 [string]$file = Get-VstsInput -Name file
 [string]$secFileId = Get-VstsInput -Name secureFileId
@@ -79,8 +81,16 @@ else {
 }
 
 
-$toolDirectory = Join-Path $env:AGENT_TOOLSDIRECTORY "\InnoSetup\$version\"
-$innoCompiler = $toolDirectory + "ISCC.exe"
+if ($use_systeminstalled_inno)
+{
+    $toolDirectory = $installpath
+}
+else 
+{
+    $toolDirectory = Join-Path $env:AGENT_TOOLSDIRECTORY "\InnoSetup\$version\"
+}
+
+$innoCompiler = Join-Path  $toolDirectory  "ISCC.exe"
 
 Write-Host "Using installed Inno-Setup compiler: " $innoCompiler
 
